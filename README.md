@@ -108,7 +108,7 @@ ruff check .
 
 ## License
 
-Copyright 2024 Mark Counterman (ilovepoker@gmail.com)
+Copyright 2024 Mark Counterman
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this software except in compliance with the License.
@@ -130,6 +130,4 @@ this software must follow the brand guidelines at https://aipseo.com/brand.
 
 ## Support
 
-For licensing inquiries, please contact:
-Mark Counterman
-Email: ilovepoker@gmail.com
+For licensing inquiries, please contact Mark Counterman.

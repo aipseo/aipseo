@@ -8,7 +8,7 @@ version = "0.2.0"
 description = "Command-line interface for AI powered SEO backlinks"
 readme = "README.md"
 authors = [
-    {name = "Mark Counterman", email = "ilovepoker@gmail.com"}
+    {name = "Mark Counterman"}
 ]
 license = {text = "Apache-2.0"}
 requires-python = ">=3.8"

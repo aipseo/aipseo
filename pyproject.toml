@@ -8,14 +8,14 @@ version = "0.2.0"
 description = "CLI tool for aipseo operations"
 readme = "README.md"
 authors = [
-    {name = "aipseo Team", email = "info@aipseo.com"}
+    {name = "Mark Counterman", email = "ilovepoker@gmail.com"}
 ]
-license = {text = "MIT"}
+license = {text = "Apache-2.0"}
 requires-python = ">=3.8"
 classifiers = [
     "Development Status :: 3 - Alpha",
     "Intended Audience :: Developers",
-    "License :: OSI Approved :: MIT License",
+    "License :: OSI Approved :: Apache Software License",
     "Programming Language :: Python :: 3",
     "Programming Language :: Python :: 3.8",
     "Programming Language :: Python :: 3.9",
@@ -33,14 +33,24 @@ dependencies = [
     "urllib3>=2.0.0",
 ]
 
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0.0",
+    "pytest-cov>=4.0.0",
+    "black>=23.0.0",
+    "ruff>=0.1.0",
+    "build>=1.0.0",
+    "twine>=4.0.0",
+]
+
 [project.scripts]
 aipseo = "aipseo.cli:app"
 
 [project.urls]
-Homepage = "https://github.com/aipseo/aipseo-cli"
-Repository = "https://github.com/aipseo/aipseo-cli.git"
-Documentation = "https://github.com/aipseo/aipseo-cli#readme"
-Issues = "https://github.com/aipseo/aipseo-cli/issues"
+Homepage = "https://github.com/aipseo/aipseo"
+Repository = "https://github.com/aipseo/aipseo.git"
+Documentation = "https://github.com/aipseo/aipseo#readme"
+Issues = "https://github.com/aipseo/aipseo/issues"
 
 [tool.hatch.build.targets.wheel]
 packages = ["aipseo"]
@@ -57,5 +67,8 @@ ignore = []
 
 [tool.pytest.ini_options]
 minversion = "6.0"
-addopts = "-ra -v"
+addopts = "-ra -v --cov=aipseo --cov-report=term-missing"
 testpaths = ["tests"]
+python_files = ["test_*.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]

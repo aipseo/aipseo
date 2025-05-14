@@ -1,7 +1,7 @@
 # spdx-license-identifier: apache-2.0
 # copyright 2024 mark counterman
 
-"""Marketplace operations for the AIPSEO CLI."""
+"""Marketplace operations for the aipseo CLI."""
 
 import getpass
 import os
@@ -18,7 +18,7 @@ from aipseo.utils import (
     read_wallet_file,
 )
 
-market_app = typer.Typer(help="Marketplace operations for AIPSEO")
+market_app = typer.Typer(help="Marketplace operations for aipseo")
 
 
 @market_app.command("list")
@@ -179,4 +179,4 @@ def sell_backlink(
     if rel:
         console.print(f"Rel Attribute: [cyan]{rel}[/cyan]")
 
-    console.print("\nYour listing is now active in the AIPSEO Marketplace.")
+    console.print("\nYour listing is now active in the aipseo Marketplace.")

@@ -5,10 +5,10 @@ build-backend = "hatchling.build"
 [project]
 name = "aipseo-cli"
 version = "0.2.0"
-description = "CLI tool for AIPSEO operations"
+description = "CLI tool for aipseo operations"
 readme = "README.md"
 authors = [
-    {name = "AIPSEO Team", email = "info@aipseo.com"}
+    {name = "aipseo Team", email = "info@aipseo.com"}
 ]
 license = {text = "MIT"}
 requires-python = ">=3.8"
@@ -28,6 +28,9 @@ dependencies = [
     "rich>=12.0.0",
     "cryptography>=41.0.0",
     "stripe>=5.4.0",
+    "pydantic>=2.0.0",
+    "jsonschema>=4.17.0",
+    "urllib3>=2.0.0",
 ]
 
 [project.scripts]

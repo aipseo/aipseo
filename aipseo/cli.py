@@ -1,7 +1,7 @@
 # spdx-license-identifier: apache-2.0
 # copyright 2024 mark counterman
 
-"""AIPSEO CLI entry point."""
+"""aipseo CLI entry point."""
 
 from typing import Optional
 
@@ -17,7 +17,7 @@ from aipseo.commands.validate import validate_command
 from aipseo.commands.wallet import wallet_app
 
 console = Console()
-app = typer.Typer(help="AIPSEO CLI tool for SEO operations")
+app = typer.Typer(help="aipseo CLI tool for SEO operations")
 
 
 @app.callback()
@@ -26,9 +26,9 @@ def main(
         None, "--version", "-v", help="Show the application version and exit."
     )
 ):
-    """AIPSEO CLI - Tools for SEO operations."""
+    """aipseo CLI - Tools for SEO operations."""
     if version:
-        console.print(f"AIPSEO CLI version: [bold]{__version__}[/bold]")
+        console.print(f"aipseo CLI version: [bold]{__version__}[/bold]")
         raise typer.Exit()
 
 
@@ -39,17 +39,17 @@ def init(
     ),
     force: bool = typer.Option(False, "--force", "-f", help="Overwrite existing file"),
 ):
-    """Initialize a new AIPSEO configuration file."""
+    """Initialize a new aipseo configuration file."""
     init_command(output, force)
 
 
 @app.command()
 def validate(
     file_path: str = typer.Option(
-        "aipseo.json", "--file", "-f", help="Path to AIPSEO manifest file"
+        "aipseo.json", "--file", "-f", help="Path to aipseo manifest file"
     )
 ):
-    """Validate an AIPSEO configuration file."""
+    """Validate an aipseo configuration file."""
     validate_command(file_path)
 
 

@@ -1,7 +1,7 @@
 # spdx-license-identifier: apache-2.0
 # copyright 2024 mark counterman
 
-"""Utility functions for the AIPSEO CLI."""
+"""Utility functions for the aipseo CLI."""
 
 import base64
 import json
@@ -15,6 +15,7 @@ from typing import Any, Dict, List, Optional, Tuple, Union
 import typer
 from rich.console import Console
 from rich.table import Table
+from aipseo.api import APIClient
 
 # Try to import cryptography modules, but handle the case where they're not installed
 CRYPTO_AVAILABLE = False
@@ -52,9 +53,6 @@ except ImportError:
 
 console = Console()
 ERROR_CONSOLE = Console(stderr=True, style="bold red")
-
-# API Base URL - replace with actual URL when available
-API_BASE_URL = "https://api.aipseo.com/v1"
 
 # Default wallet file location
 DEFAULT_WALLET_PATH = ".wallet.json"
@@ -114,7 +112,7 @@ def format_output(data: Dict[str, Any], format_type: str = "pretty") -> None:
             sys.exit(1)
 
         # Create a table for the data
-        table = Table(title="AIPSEO Results")
+        table = Table(title="aipseo Results")
 
         # Add columns and rows based on data structure
         if isinstance(data, dict):
@@ -268,122 +266,53 @@ def display_marketplace_listings(listings: List[Dict[str, Any]]) -> None:
 def make_api_request(
     endpoint: str, method: str = "GET", params: Optional[Dict[str, Any]] = None
 ) -> Union[Dict[str, Any], List[Dict[str, Any]]]:
-    """Make a request to the AIPSEO API."""
-    if params is None:
-        params = {}
-
-    # Mock implementations for wallet and marketplace endpoints
-    if endpoint == "wallet/create":
-        return {
-            "wallet_id": f"w_{generate_tool_id(16)}",
-            "deposit_address": f"aipseo_{generate_tool_id(24)}",
-        }
-    elif endpoint == "wallet/balance":
-        wallet_id = params.get("wallet_id", "")
-        return {
-            "wallet_id": wallet_id,
-            "tokens": random.randint(100, 5000),
-            "usd": random.uniform(10.0, 500.0),
-        }
-    elif endpoint == "wallet/deposit":
-        wallet_id = params.get("wallet_id", "")
-        amount = params.get("amount_usd", 100.0)
-        return {
-            "wallet_id": wallet_id,
-            "amount_usd": amount,
-            "stripe_checkout_url": "https://checkout.stripe.com/pay/mock_session_id",
-        }
-    elif endpoint == "wallet/withdraw":
-        wallet_id = params.get("wallet_id", "")
-        amount = params.get("amount_usd", 50.0)
-        dest = params.get("dest", "example_bank_account")
-        return {
-            "wallet_id": wallet_id,
-            "amount_usd": amount,
-            "destination": dest,
-            "status": "processing",
-            "transaction_id": f"tx_{generate_tool_id(16)}",
-        }
-    elif endpoint == "marketplace/search":
-        # Generate mock listings based on search criteria
-        dr_min = params.get("dr_min", 20)
-        price_max = params.get("price_max", 100.0)
-
-        listings = []
-        for _ in range(random.randint(3, 8)):
-            dr = dr_min + random.randint(0, 30)
-            price = min(price_max or 1000.0, dr * random.uniform(0.5, 1.5))
-            listings.append(
-                {
-                    "listing_id": f"lst_{generate_tool_id(8)}",
-                    "source_url": (
-                        f"https://example{random.randint(1, 999)}.com/"
-                        f"blog/post-{random.randint(1, 100)}"
-                    ),
-                    "dr_bucket": dr,
-                    "price_usd": price,
-                    "anchor": f"sample anchor text {random.randint(1, 100)}",
-                }
-            )
-        return listings
-    elif endpoint == "marketplace/buy":
-        listing_id = params.get("listing_id", f"lst_{generate_tool_id(8)}")
-        return {
-            "status": "success",
-            "escrow_id": f"esc_{generate_tool_id(12)}",
-            "listing_id": listing_id,
-        }
-    elif endpoint == "marketplace/list":
-        source_url = params.get("source_url", "https://example.com/blog")
-        target_url = params.get("target_url", "https://target.com")
-        price = params.get("price_usd", 50.0)
-        return {
-            "listing_id": f"lst_{generate_tool_id(8)}",
-            "source_url": source_url,
-            "target_url": target_url,
-            "price_usd": price,
-            "status": "active",
-        }
-    # Handle original endpoints
-    elif endpoint == "lookup":
-        url = params.get("url", "example.com")
-        # Create a dummy response that looks like it came from an API
-        return {
-            "url": url,
-            "domain_authority": 45,
-            "page_authority": 38,
-            "backlinks": 234,
-            "referring_domains": 56,
-            "indexed_pages": 1243,
-            "last_crawled": "2023-05-10T14:32:45Z",
-        }
-    elif endpoint == "spam-score":
-        url = params.get("url", "example.com")
-        score = random.randint(1, 10)
-        return {
-            "url": url,
-            "spam_score": score,
-            "risk_level": "Low" if score < 4 else "Medium" if score < 7 else "High",
-            "spam_flags": random.randint(0, 5),
-            "last_checked": "2023-05-12T09:15:22Z",
-        }
-    else:
-        return {"error": f"Unknown endpoint: {endpoint}"}
-
-    # Real implementation would be something like this:
-    """
-    url = f"{API_BASE_URL}/{endpoint}"
-    
+    """Make a request to the aipseo API using the API client."""
     try:
-        if method.upper() == "GET":
-            response = requests.get(url, params=params)
-        elif method.upper() == "POST":
-            response = requests.post(url, json=params)
-        else:
-            return {"error": f"Unsupported method: {method}"}
+        client = APIClient()
         
-        response.raise_for_status()
-        return response.json()
-    except requests.RequestException as e:
-        return {"error": f"API request failed: {str(e)}"}
-    """
+        # Map endpoints to client methods
+        if endpoint == "lookup":
+            return client.lookup(params.get("url", ""))
+        elif endpoint == "spam-score":
+            return client.spam_score(params.get("url", ""))
+        elif endpoint == "wallet/create":
+            return client.create_wallet(params.get("name", "default"))
+        elif endpoint == "wallet/balance":
+            return client.get_balance(params.get("wallet_id", ""))
+        elif endpoint == "wallet/deposit":
+            return client.deposit(
+                params.get("wallet_id", ""),
+                params.get("amount_usd", 0.0)
+            )
+        elif endpoint == "wallet/withdraw":
+            return client.withdraw(
+                params.get("wallet_id", ""),
+                params.get("amount_usd", 0.0),
+                params.get("dest", "")
+            )
+        elif endpoint == "marketplace/search":
+            return client.search_marketplace(
+                dr_min=params.get("dr_min"),
+                price_max=params.get("price_max"),
+                topic=params.get("topic")
+            )
+        elif endpoint == "marketplace/buy":
+            return client.buy_listing(
+                params.get("wallet_id", ""),
+                params.get("listing_id", "")
+            )
+        elif endpoint == "marketplace/list":
+            return client.list_backlink(
+                wallet_id=params.get("wallet_id", ""),
+                source_url=params.get("source_url", ""),
+                target_url=params.get("target_url", ""),
+                price=params.get("price_usd", 0.0),
+                anchor=params.get("anchor", ""),
+                rel=params.get("rel")
+            )
+        else:
+            return {"error": f"Unknown endpoint: {endpoint}"}
+            
+    except Exception as e:
+        ERROR_CONSOLE.print(f"Error: {str(e)}")
+        raise typer.Exit(1)

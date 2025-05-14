@@ -1,7 +1,7 @@
 # spdx-license-identifier: apache-2.0
 # copyright 2024 mark counterman
 
-"""Wallet operations for the AIPSEO CLI."""
+"""Wallet operations for the aipseo CLI."""
 
 import getpass
 import os
@@ -18,7 +18,7 @@ from aipseo.utils import (
     write_wallet_file,
 )
 
-wallet_app = typer.Typer(help="Wallet operations for AIPSEO marketplace")
+wallet_app = typer.Typer(help="Wallet operations for aipseo marketplace")
 
 
 @wallet_app.command("create")
@@ -31,7 +31,7 @@ def create_wallet(
         False, "--force", "-f", help="Overwrite existing wallet file"
     ),
 ):
-    """Create a new wallet for AIPSEO marketplace operations."""
+    """Create a new wallet for aipseo marketplace operations."""
     if os.path.exists(output) and not force:
         ERROR_CONSOLE.print(
             f"Error: Wallet file '{output}' already exists. Use --force to overwrite."

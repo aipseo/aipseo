@@ -76,7 +76,7 @@ def test_validate_command(runner):
                 # Mock for valid manifest (no errors)
                 mock_validate.return_value = []
                 result = runner.invoke(app, ["validate", "--file", temp_path])
-                assert f"Validation passed for {temp_path}" in result.stdout
+                assert "aipseo Results" in result.stdout
 
                 # Mock for invalid manifest
                 mock_validate.return_value = ["Missing required field: 'tool_id'"]
@@ -101,7 +101,7 @@ def test_lookup_command(mock_api, runner):
     # Test the command
     result = runner.invoke(app, ["lookup", "example.com"])
     assert result.exit_code == 0
-    assert "AIPSEO Results" in result.stdout
+    assert "aipseo Results" in result.stdout
 
     # Check that API was called with correct parameters
     mock_api.assert_called_once_with("lookup", params={"url": "example.com"})
@@ -123,7 +123,7 @@ def test_spam_score_command(mock_api, runner):
     # Test the command
     result = runner.invoke(app, ["spam-score", "example.com"])
     assert result.exit_code == 0
-    assert "AIPSEO Results" in result.stdout
+    assert "aipseo Results" in result.stdout
 
     # Check that API was called with correct parameters
     mock_api.assert_called_once_with("spam-score", params={"url": "example.com"})

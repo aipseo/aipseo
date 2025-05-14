@@ -1,8 +1,8 @@
-# aipseo-cli · ai-powered seo toolkit
+# aipseo-cli
 
 [![license](https://img.shields.io/github/license/aipseo/aipseo-cli)](license)
 
-A command-line interface for interacting with AIPSEO services.
+A command-line interface for managing SEO backlinks.
 
 ## Installation
 
@@ -10,75 +10,125 @@ A command-line interface for interacting with AIPSEO services.
 pip install aipseo-cli
 ```
 
-## Usage
+## Quick Start
+
+1. Initialize configuration:
+```bash
+aipseo init
+```
+
+2. Create a wallet:
+```bash
+aipseo wallet create --name mywallet --output .wallet.json
+```
+
+3. Explore marketplace:
+```bash
+aipseo market list
+```
+
+## Basic Usage
+
+### Core Commands
 
 ```bash
-# Initialize a new AIPSEO manifest file
+# Initialize configuration
 aipseo init
 
-# Validate an existing manifest file
+# Validate configuration
 aipseo validate
 
-# Look up information for a URL
+# Look up URL information
 aipseo lookup example.com
 
 # Check spam score
 aipseo spam-score example.com
-
-# Create a new wallet for marketplace operations
-aipseo wallet create --name mywallet --output .wallet.json
-
-# Check your wallet balance
-aipseo wallet balance --wallet .wallet.json
-
-# Deposit funds to your wallet using Stripe checkout
-aipseo wallet deposit --wallet .wallet.json --amount 100
-
-# Withdraw funds from your wallet
-aipseo wallet withdraw --wallet .wallet.json --amount 50 --dest your_bank_account
-
-# List available backlink opportunities in the marketplace
-aipseo market list --dr-min 30 --price-max 100
-
-# Purchase a backlink from the marketplace
-aipseo market buy --wallet .wallet.json --listing-id lst_12345678
-
-# List a backlink for sale in the marketplace
-aipseo market sell --wallet .wallet.json --source-url https://yourblog.com/post --target-url https://target.com --price 75 --anchor "useful resource"
 ```
 
-## Features
+### Wallet Commands
 
-- **init**: Create a new AIPSEO manifest file
-- **validate**: Validate an existing manifest file
-- **lookup**: Look up information for a domain or URL
-- **spam-score**: Get spam score for a domain or URL
-- **wallet**: Manage your AIPSEO marketplace wallet
-  - **create**: Create a new wallet for marketplace operations
-  - **balance**: Check your wallet balance
-  - **deposit**: Add funds to your wallet via Stripe checkout
-  - **withdraw**: Withdraw funds from your wallet
-- **market**: Marketplace operations for buying and selling backlinks
-  - **list**: List available backlink opportunities
-  - **buy**: Purchase a backlink from the marketplace
-  - **sell**: List a backlink for sale in the marketplace
+```bash
+# Create wallet
+aipseo wallet create --name mywallet --output .wallet.json
+
+# Check balance
+aipseo wallet balance --wallet .wallet.json
+
+# Deposit funds
+aipseo wallet deposit --wallet .wallet.json --amount 100
+
+# Withdraw funds
+aipseo wallet withdraw --wallet .wallet.json --amount 50 --dest your_bank_account
+```
+
+### Marketplace Commands
+
+```bash
+# List opportunities
+aipseo market list --dr-min 30 --price-max 100
+
+# Buy backlink
+aipseo market buy --wallet .wallet.json --listing-id lst_12345678
+
+# Sell backlink
+aipseo market sell \
+  --wallet .wallet.json \
+  --source-url https://yourblog.com/post \
+  --target-url https://target.com \
+  --price 75 \
+  --anchor "useful resource"
+```
 
 ## Development
 
-Clone the repository and install development dependencies:
+### Setup
 
 ```bash
+# Clone repository
 git clone https://github.com/aipseo/aipseo-cli.git
 cd aipseo-cli
+
+# Install dependencies
 pip install -e ".[dev]"
+
+# Initialize project
+aipseo init
 ```
 
-Run tests:
+### Testing
 
 ```bash
+# Run tests
 pytest
+
+# Check code style
+ruff check .
 ```
 
 ## License
 
-apache-2.0
+Copyright 2024 Mark Counterman (ilovepoker@gmail.com)
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this software except in compliance with the License.
+You may obtain a copy of the License at:
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+
+## Trademark
+
+aipseo™ is a trademark of Mark Counterman. Use of the name "aipseo" or
+the "aipseo verified" badge in modified or redistributed versions of
+this software must follow the brand guidelines at https://aipseo.com/brand.
+
+## Support
+
+For licensing inquiries, please contact:
+Mark Counterman
+Email: ilovepoker@gmail.com

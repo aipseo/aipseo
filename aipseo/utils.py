@@ -16,6 +16,7 @@ import typer
 from rich.console import Console
 from rich.table import Table
 from aipseo.api import APIClient
+from aipseo.common import ERROR_CONSOLE, console, read_json_file
 
 # Try to import cryptography modules, but handle the case where they're not installed
 CRYPTO_AVAILABLE = False
@@ -100,32 +101,6 @@ def write_json_file(file_path: str, data: Dict[str, Any], force: bool = False) -
     except Exception as e:
         ERROR_CONSOLE.print(f"Error writing file: {e}")
         sys.exit(1)
-
-
-def format_output(data: Dict[str, Any], format_type: str = "pretty") -> None:
-    """Format and print data based on the specified format."""
-    if format_type.lower() == "json":
-        console.print(json.dumps(data, indent=2))
-    else:  # pretty
-        if "error" in data:
-            ERROR_CONSOLE.print(f"Error: {data['error']}")
-            sys.exit(1)
-
-        # Create a table for the data
-        table = Table(title="aipseo Results")
-
-        # Add columns and rows based on data structure
-        if isinstance(data, dict):
-            table.add_column("Property", style="cyan")
-            table.add_column("Value", style="green")
-
-            for key, value in data.items():
-                if isinstance(value, (dict, list)):
-                    table.add_row(key, json.dumps(value, indent=2))
-                else:
-                    table.add_row(key, str(value))
-
-        console.print(table)
 
 
 def derive_key_from_password(

@@ -1,6 +1,6 @@
-# aipseo-cli
+# aipseo
 
-[![license](https://img.shields.io/github/license/aipseo/aipseo-cli)](license)
+[![license](https://img.shields.io/github/license/aipseo/aipseo)](license)
 [![CI/CD](https://github.com/aipseo/aipseo/actions/workflows/ci.yml/badge.svg)](https://github.com/aipseo/aipseo/actions/workflows/ci.yml)
 
 A command-line interface for AI powered SEO backlinks.
@@ -8,7 +8,7 @@ A command-line interface for AI powered SEO backlinks.
 ## Installation
 
 ```bash
-pip install aipseo-cli
+pip install aipseo
 ```
 
 ## Quick Start
@@ -86,8 +86,8 @@ aipseo market sell \
 
 ```bash
 # Clone repository
-git clone https://github.com/aipseo/aipseo-cli.git
-cd aipseo-cli
+git clone https://github.com/aipseo/aipseo.git
+cd aipseo
 
 # Install dependencies
 pip install -e ".[dev]"

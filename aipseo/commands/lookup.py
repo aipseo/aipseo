@@ -6,7 +6,8 @@
 import typer
 from rich.console import Console
 
-from aipseo.utils import format_output, make_api_request
+from aipseo.common import format_output
+from aipseo.utils import make_api_request
 
 console = Console()
 ERROR_CONSOLE = Console(stderr=True, style="bold red")

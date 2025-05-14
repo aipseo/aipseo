@@ -9,6 +9,7 @@ from typing import Any, Dict, List
 import typer
 from rich.console import Console
 
+from aipseo.common import ERROR_CONSOLE, console, format_output
 from aipseo.utils import read_json_file
 
 console = Console()
@@ -101,6 +102,10 @@ def validate_command(file_path: str = "aipseo.json") -> None:
             ERROR_CONSOLE.print(f"  - {error}")
         raise typer.Exit(1)
     else:
-        console.print(f"✓ Validation passed for [bold]{file_path}[/bold]")
-        console.print(f"Tool ID: [bold]{manifest.get('tool_id')}[/bold]")
-        console.print(f"Version: [bold]{manifest.get('version')}[/bold]")
+        # Format the output using the common function
+        format_output({
+            "status": "success",
+            "file": file_path,
+            "tool_id": manifest.get("tool_id"),
+            "version": manifest.get("version")
+        })

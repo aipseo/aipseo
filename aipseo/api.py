@@ -1,6 +1,7 @@
 """API client for aipseo services."""
 
 import json
+import os
 import time
 from typing import Any, Dict, List, Optional, Union
 
@@ -8,14 +9,16 @@ import requests
 from requests.adapters import HTTPAdapter
 from urllib3.util.retry import Retry
 
-from aipseo.utils import ERROR_CONSOLE, read_json_file
+from aipseo.common import ERROR_CONSOLE, read_json_file
 
 
 class APIClient:
     """Client for interacting with the aipseo API."""
 
-    def __init__(self, manifest_path: str = "aipseo.json"):
+    def __init__(self, manifest_path: Optional[str] = None):
         """Initialize the API client with configuration from manifest."""
+        # Use environment variable or default path
+        manifest_path = manifest_path or os.environ.get("aipseo_manifest", "aipseo.json")
         self.manifest = read_json_file(manifest_path)
         self.settings = self.manifest.get("settings", {})
         self.api_settings = self.settings.get("api", {})

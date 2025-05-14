@@ -3,9 +3,9 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [project]
-name = "aipseo-cli"
+name = "aipseo"
 version = "0.2.0"
-description = "CLI tool for aipseo operations"
+description = "Command-line interface for AI powered SEO backlinks"
 readme = "README.md"
 authors = [
     {name = "Mark Counterman", email = "ilovepoker@gmail.com"}

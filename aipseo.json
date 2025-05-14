@@ -1,0 +1,15 @@
+{
+  "tool_id": "aipseo-cli",
+  "version": "0.2.0",
+  "settings": {
+    "api": {
+      "environment": "production",
+      "endpoints": {
+        "production": "https://api.aipseo.com/v1"
+      },
+      "timeout": 30,
+      "max_retries": 3,
+      "retry_delay": 1
+    }
+  }
+} 

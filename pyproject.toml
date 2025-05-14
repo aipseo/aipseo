@@ -1,0 +1,58 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "aipseo-cli"
+version = "0.2.0"
+description = "CLI tool for AIPSEO operations"
+readme = "README.md"
+authors = [
+    {name = "AIPSEO Team", email = "info@aipseo.com"}
+]
+license = {text = "MIT"}
+requires-python = ">=3.8"
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+]
+dependencies = [
+    "typer>=0.9.0",
+    "requests>=2.28.0",
+    "rich>=12.0.0",
+    "cryptography>=41.0.0",
+    "stripe>=5.4.0",
+]
+
+[project.scripts]
+aipseo = "aipseo.cli:app"
+
+[project.urls]
+Homepage = "https://github.com/aipseo/aipseo-cli"
+Repository = "https://github.com/aipseo/aipseo-cli.git"
+Documentation = "https://github.com/aipseo/aipseo-cli#readme"
+Issues = "https://github.com/aipseo/aipseo-cli/issues"
+
+[tool.hatch.build.targets.wheel]
+packages = ["aipseo"]
+
+[tool.black]
+line-length = 88
+target-version = ["py38"]
+
+[tool.ruff]
+target-version = "py38"
+line-length = 88
+select = ["E", "F", "B", "I"]
+ignore = []
+
+[tool.pytest.ini_options]
+minversion = "6.0"
+addopts = "-ra -v"
+testpaths = ["tests"]

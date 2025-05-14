@@ -1,8 +1,9 @@
 # aipseo-cli
 
 [![license](https://img.shields.io/github/license/aipseo/aipseo-cli)](license)
+[![CI/CD](https://github.com/aipseo/aipseo/actions/workflows/ci.yml/badge.svg)](https://github.com/aipseo/aipseo/actions/workflows/ci.yml)
 
-A command-line interface for managing SEO backlinks.
+A command-line interface for AI powered SEO backlinks.
 
 ## Installation
 

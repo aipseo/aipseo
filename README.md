@@ -3,7 +3,7 @@
 [![license](https://img.shields.io/github/license/aipseo/aipseo)](license)
 [![CI/CD](https://github.com/aipseo/aipseo/actions/workflows/ci.yml/badge.svg)](https://github.com/aipseo/aipseo/actions/workflows/ci.yml)
 
-A command-line interface for AI powered SEO! aipseo.com
+AI powered SEO! aipseo.com
 
 ## Installation
 

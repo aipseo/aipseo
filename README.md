@@ -44,6 +44,9 @@ aipseo lookup example.com
 
 # Check spam score
 aipseo spam-score example.com
+
+# Emit machine-readable function spec for AI integration
+aipseo toolspec --format openai
 ```
 
 ### Wallet Commands

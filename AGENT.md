@@ -76,6 +76,7 @@ Refer to `README.md` for full usage. Key commands include:
 | `aipseo validate`           | Validate configuration file           |
 | `aipseo lookup <url>`       | Look up URL metadata                  |
 | `aipseo spam-score <url>`   | Check spam score for a URL            |
+| `aipseo toolspec --format openai` | Emit machine-readable function spec for AI integration |
 | `aipseo wallet ...`         | Wallet management (create, balance, etc.) |
 | `aipseo market ...`         | Marketplace operations (list, buy, sell) |
 

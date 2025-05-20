@@ -15,6 +15,7 @@ from aipseo.commands.market import market_app
 from aipseo.commands.spam_score import spam_score_command
 from aipseo.commands.validate import validate_command
 from aipseo.commands.wallet import wallet_app
+from aipseo.toolspec import emit_tool_spec
 
 console = Console()
 app = typer.Typer(help="aipseo CLI tool for SEO operations")
@@ -74,6 +75,17 @@ def spam_score(
     """Check spam score for a URL."""
     spam_score_command(url, format)
 
+@app.command("toolspec")
+def toolspec(
+    format: str = typer.Option(
+        "openai",
+        "--format",
+        "-f",
+        help="Output machine-readable function spec (e.g. openai)",
+    ),
+):
+    """Emit machine-readable function specification for AI integration."""
+    emit_tool_spec(format)
 
 # Add wallet and marketplace command groups
 app.add_typer(wallet_app, name="wallet")

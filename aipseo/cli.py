@@ -20,7 +20,7 @@ console = Console()
 app = typer.Typer(help="aipseo CLI tool for SEO operations")
 
 
-@app.callback()
+@app.callback(invoke_without_command=True)
 def main(
     version: Optional[bool] = typer.Option(
         None, "--version", "-v", help="Show the application version and exit."

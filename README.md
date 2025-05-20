@@ -3,7 +3,7 @@
 [![license](https://img.shields.io/github/license/aipseo/aipseo)](license)
 [![CI/CD](https://github.com/aipseo/aipseo/actions/workflows/ci.yml/badge.svg)](https://github.com/aipseo/aipseo/actions/workflows/ci.yml)
 
-A command-line interface for AI powered SEO backlinks.
+AI powered SEO! aipseo.com
 
 ## Installation
 
@@ -126,8 +126,8 @@ limitations under the License.
 
 aipseo™ is a trademark of Mark Counterman. Use of the name "aipseo" or
 the "aipseo verified" badge in modified or redistributed versions of
-this software must follow the brand guidelines at https://aipseo.com/brand.
+this software must follow the brand guidelines at aipseo.com
 
 ## Support
 
-For licensing inquiries, please contact Mark Counterman.
+For licensing inquiries, please contact aipseo.com

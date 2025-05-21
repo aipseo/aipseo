@@ -15,6 +15,8 @@ and contribute effectively.
 - Manage wallets (`wallet create/balance/deposit/withdraw`)
 - Interact with a backlink marketplace (`market list/buy/sell`)
 
+In addition to the CLI, AIPSEO provides a **Model Context Protocol (MCP) server** (`aipseo/mcp_server.py`) allowing AI agents to programmatically access certain functionalities. Initially, this includes an SEO content analysis tool.
+
 ## Project Structure
 
 ```
@@ -28,6 +30,7 @@ and contribute effectively.
 │   ├── api.py         # HTTP client for backend services
 │   ├── common.py      # Shared utilities (I/O, formatting)
 │   ├── utils.py       # Encryption, display, and CLI helpers
+│   ├── mcp_server.py  # MCP server exposing tools for AI agents
 │   └── commands/      # Command handlers and sub-commands
 ├── .github/           # CI/CD workflows (publish, tests)
 ├── LICENSE            # Apache-2.0 license
@@ -36,7 +39,7 @@ and contribute effectively.
 
 ## Setup & Development
 
-The project targets **Python 3.8+** and uses [Hatchling](https://hatch.pypa.io/) for packaging.
+The project targets **Python 3.8+** and uses [Hatchling](https://hatch.pypa.io/) for packaging.
 Development and test settings (pytest, black, ruff) are configured in `pyproject.toml`.
 
 ```bash
@@ -79,6 +82,39 @@ Refer to `README.md` for full usage. Key commands include:
 | `aipseo toolspec --format openai` | Emit machine-readable function spec for AI integration |
 | `aipseo wallet ...`         | Wallet management (create, balance, etc.) |
 | `aipseo market ...`         | Marketplace operations (list, buy, sell) |
+
+## Interacting via MCP
+
+AIPSEO includes an MCP server that exposes tools for AI agents. You can interact with these tools by connecting to the server using an MCP client.
+
+The server is defined in `aipseo/mcp_server.py` and can be run (for development/testing) using an ASGI server like Uvicorn:
+```bash
+uvicorn aipseo.mcp_server:mcp_server --host 0.0.0.0 --port 8000
+```
+
+### Available MCP Tools
+
+#### `analyze_seo_content`
+
+*   **Description**: Analyzes a given piece of text content for SEO best practices against a target keyword.
+*   **Parameters**:
+    *   `content` (string): The text content to analyze.
+    *   `keyword` (string): The target keyword for the analysis.
+*   **Returns**: (string) A summary of the SEO analysis and actionable recommendations.
+*   **Example (conceptual)**:
+    ```python
+    # Assuming you have an MCP client instance `mcp_client`
+    # connected to the AIPSEO MCP server.
+
+    article_text = "This is my new blog post about amazing widgets."
+    focus_keyword = "amazing widgets"
+
+    try:
+        seo_feedback = mcp_client.tools.analyze_seo_content(content=article_text, keyword=focus_keyword)
+        print("SEO Feedback:", seo_feedback)
+    except Exception as e:
+        print(f"Error calling analyze_seo_content: {e}")
+    ```
 
 ## AI Assistant Guidelines
 

@@ -83,6 +83,37 @@ aipseo market sell \
   --anchor "useful resource"
 ```
 
+## AI Agent Integration (MCP Server)
+
+AIPSEO now includes an experimental Model Context Protocol (MCP) server, allowing AI agents and other applications to interact with its capabilities programmatically.
+
+### Available Tools
+
+Currently, the following tool is available:
+
+*   **`analyze_seo_content(content: str, keyword: str) -> str`**:
+    *   **Description**: Analyzes a given piece of text content for SEO best practices against a target keyword.
+    *   **Parameters**:
+        *   `content` (string): The text content to analyze.
+        *   `keyword` (string): The target keyword for the analysis.
+    *   **Returns**: A string containing an analysis summary and actionable SEO recommendations.
+
+### Running the MCP Server
+
+The MCP server is defined in `aipseo/mcp_server.py`. To run it (for development/testing):
+
+1.  Ensure you have `mcp` and an ASGI server like `uvicorn` installed in your environment.
+    ```bash
+    pip install "mcp[cli]" uvicorn
+    ```
+2.  Run the server using uvicorn:
+    ```bash
+    uvicorn aipseo.mcp_server:mcp_server --host 0.0.0.0 --port 8000
+    ```
+    (You might need to adjust the path or module name depending on your project setup.)
+
+AI agents can then connect to this server using an MCP client.
+
 ## Development
 
 ### Setup

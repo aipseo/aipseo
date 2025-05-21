@@ -1,29 +1,37 @@
+# spdx-license-identifier: apache-2.0
+# copyright 2024 mark counterman
+
 """This module implements an MCP (Model Context Protocol) server for aipseo.
 
 It exposes tools that AI agents can use to interact with aipseo's functionalities,
-starting with SEO content analysis.
+including SEO content analysis, URL lookup, spam score, market opportunities, and wallet balance.
 """
-from mcp.server.fastmcp import FastMCP
 
-# Create an MCP server
-mcp_server = FastMCP("AIPSEO_MCP_Server")
+import uvicorn
+from mcp.server import Server, ToolRegistry
 
+# Import tools from agent_tools (including the re-integrated analyze_seo_content)
+from aipseo.agent_tools import (
+    analyze_seo_content, # Re-integrated tool
+    get_url_lookup,
+    get_spam_score,
+    list_market_opportunities,
+    get_wallet_balance,
+)
 
-@mcp_server.tool()
-def analyze_seo_content(content: str, keyword: str) -> str:
-    """
-    Analyzes the given content for SEO against a target keyword.
-    Returns a summary of the analysis and recommendations.
-    """
-    # Placeholder for actual SEO analysis logic
-    analysis_summary = f"Received content snippet: '{content[:100]}...' for keyword: '{keyword}'.\n"
-    recommendations = "Recommendations: \n1. Ensure keyword density is appropriate.\n2. Check for keyword in title and headings.\n3. Improve meta description."
-    
-    return f"{analysis_summary}{recommendations}"
+# Create a ToolRegistry instance
+registry = ToolRegistry()
 
-# To run this server (example, you'll need to integrate this into your project's run strategy):
-# if __name__ == "__main__":
-#     # This is a simplified way to run for testing.
-#     # You might use 'uvicorn aipseo.mcp_server:mcp_server' or integrate with an existing ASGI app.
-#     import uvicorn
-#     uvicorn.run(mcp_server, host="0.0.0.0", port=8000) 
+# Register the functions from agent_tools (including analyze_seo_content)
+registry.register(analyze_seo_content) # Register the re-integrated tool
+registry.register(get_url_lookup)
+registry.register(get_spam_score)
+registry.register(list_market_opportunities)
+registry.register(get_wallet_balance)
+
+# Create a Server instance
+mcp_server = Server(registry=registry)
+
+# Main execution block to run the server
+if __name__ == "__main__":
+    uvicorn.run("aipseo.mcp_server:mcp_server", host="0.0.0.0", port=8000, reload=True)

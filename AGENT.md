@@ -85,36 +85,65 @@ Refer to `README.md` for full usage. Key commands include:
 
 ## Interacting via MCP
 
-AIPSEO includes an MCP server that exposes tools for AI agents. You can interact with these tools by connecting to the server using an MCP client.
+AIPSEO includes an MCP server that exposes tools for AI agents, primarily sourced from `aipseo/agent_tools.py`. You can interact with these tools by connecting to the server using an MCP client.
 
 The server is defined in `aipseo/mcp_server.py` and can be run (for development/testing) using an ASGI server like Uvicorn:
 ```bash
-uvicorn aipseo.mcp_server:mcp_server --host 0.0.0.0 --port 8000
+uvicorn aipseo.mcp_server:mcp_server --host 0.0.0.0 --port 8000 --reload
 ```
+(Note: The `--reload` flag is useful for development to automatically pick up code changes.)
 
 ### Available MCP Tools
 
-#### `analyze_seo_content`
+The following tools are registered with the MCP server and available for use:
 
-*   **Description**: Analyzes a given piece of text content for SEO best practices against a target keyword.
+#### `get_url_lookup`
+
+*   **Signature**: `get_url_lookup(url: str) -> dict`
+*   **Description**: Retrieves lookup information (metadata, metrics) for a given URL.
 *   **Parameters**:
-    *   `content` (string): The text content to analyze.
-    *   `keyword` (string): The target keyword for the analysis.
-*   **Returns**: (string) A summary of the SEO analysis and actionable recommendations.
-*   **Example (conceptual)**:
-    ```python
-    # Assuming you have an MCP client instance `mcp_client`
-    # connected to the AIPSEO MCP server.
+    *   `url` (str): The URL to look up.
+*   **Returns**: (dict) A dictionary containing the lookup data for the URL.
 
-    article_text = "This is my new blog post about amazing widgets."
-    focus_keyword = "amazing widgets"
+#### `get_spam_score`
 
-    try:
-        seo_feedback = mcp_client.tools.analyze_seo_content(content=article_text, keyword=focus_keyword)
-        print("SEO Feedback:", seo_feedback)
-    except Exception as e:
-        print(f"Error calling analyze_seo_content: {e}")
-    ```
+*   **Signature**: `get_spam_score(url: str) -> dict`
+*   **Description**: Fetches the spam score for a specified URL.
+*   **Parameters**:
+    *   `url` (str): The URL to get the spam score for.
+*   **Returns**: (dict) A dictionary containing the spam score result.
+
+#### `list_market_opportunities`
+
+*   **Signature**: `list_market_opportunities(dr_min: Optional[int] = None, price_max: Optional[float] = None, topic: Optional[str] = None) -> list`
+*   **Description**: Lists available backlink opportunities from the marketplace, with optional filters for Domain Rating (DR), maximum price, and topic.
+*   **Parameters**:
+    *   `dr_min` (Optional[int]): Minimum Domain Rating.
+    *   `price_max` (Optional[float]): Maximum price.
+    *   `topic` (Optional[str]): Desired topic for backlinks.
+*   **Returns**: (list) A list of market opportunities matching the criteria.
+
+#### `get_wallet_balance`
+
+*   **Signature**: `get_wallet_balance(wallet_id: str) -> dict`
+*   **Description**: Gets the current balance for a specified wallet ID.
+*   **Parameters**:
+    *   `wallet_id` (str): The ID of the wallet to get the balance for.
+*   **Returns**: (dict) A dictionary containing the wallet balance result.
+
+---
+(Note: The `analyze_seo_content` tool, previously mentioned in this guide, is described for context but is not currently enabled in the default `aipseo/mcp_server.py`.)
+---
+
+### Obtaining Tool Schemas
+
+AI agents can obtain machine-readable schemas for these tools, which is useful for function calling and ensuring correct parameter usage. The `aipseo toolspec` command now includes schemas for both the standard CLI commands and the agent tools exposed via MCP.
+
+To get the OpenAI-compatible schemas:
+```bash
+aipseo toolspec --format openai
+```
+This output will contain a JSON array of tool specifications, including `get_url_lookup`, `get_spam_score`, `list_market_opportunities`, and `get_wallet_balance`.
 
 ## AI Assistant Guidelines
 

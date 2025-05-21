@@ -3,7 +3,7 @@
 
 import unittest
 import asyncio
-from mcp.server.fastmcp import FastMCP
+from tests.mock_mcp import FastMCP  # Use our mock implementation for testing
 
 # Expected tools that should be registered (imported for clarity/reference)
 from aipseo.agent_tools import (

@@ -85,37 +85,44 @@ Refer to `README.md` for full usage. Key commands include:
 
 ## Interacting via MCP
 
-AIPSEO includes an MCP server that exposes tools for AI agents, primarily sourced from `aipseo/agent_tools.py`. You can interact with these tools by connecting to the server using an MCP client.
+AIPSEO includes an MCP server that exposes tools for AI agents, sourced from `aipseo/agent_tools.py` and registered using the modern `FastMCP` API. You can interact with these tools by connecting to the server using an MCP client.
 
-The server is defined in `aipseo/mcp_server.py` and can be run (for development/testing) using an ASGI server like Uvicorn:
+The server is defined in `aipseo/mcp_server.py` and can be run (for development/testing) using an ASGI server like Uvicorn or using the built-in FastMCP run method:
 ```bash
 uvicorn aipseo.mcp_server:mcp_server --host 0.0.0.0 --port 8000 --reload
+# or, from within Python:
+# python -m aipseo.mcp_server
 ```
 (Note: The `--reload` flag is useful for development to automatically pick up code changes.)
 
 ### Available MCP Tools
 
-The following tools are registered with the MCP server and available for use:
+The following tools are registered with the MCP server and available for use (see `aipseo/mcp_server.py`):
 
-#### `get_url_lookup`
+#### `analyze_seo_content_tool`
+*   **Signature**: `analyze_seo_content_tool(content: str, keyword: str) -> str`
+*   **Description**: Analyzes the given content for SEO against a target keyword.
+*   **Parameters**:
+    *   `content` (str): The text content to analyze.
+    *   `keyword` (str): The target keyword for the analysis.
+*   **Returns**: (str) A string containing an analysis summary and actionable SEO recommendations.
 
-*   **Signature**: `get_url_lookup(url: str) -> dict`
+#### `get_url_lookup_tool`
+*   **Signature**: `get_url_lookup_tool(url: str) -> dict`
 *   **Description**: Retrieves lookup information (metadata, metrics) for a given URL.
 *   **Parameters**:
     *   `url` (str): The URL to look up.
 *   **Returns**: (dict) A dictionary containing the lookup data for the URL.
 
-#### `get_spam_score`
-
-*   **Signature**: `get_spam_score(url: str) -> dict`
+#### `get_spam_score_tool`
+*   **Signature**: `get_spam_score_tool(url: str) -> dict`
 *   **Description**: Fetches the spam score for a specified URL.
 *   **Parameters**:
     *   `url` (str): The URL to get the spam score for.
 *   **Returns**: (dict) A dictionary containing the spam score result.
 
-#### `list_market_opportunities`
-
-*   **Signature**: `list_market_opportunities(dr_min: Optional[int] = None, price_max: Optional[float] = None, topic: Optional[str] = None) -> list`
+#### `list_market_opportunities_tool`
+*   **Signature**: `list_market_opportunities_tool(dr_min: Optional[int] = None, price_max: Optional[float] = None, topic: Optional[str] = None) -> list`
 *   **Description**: Lists available backlink opportunities from the marketplace, with optional filters for Domain Rating (DR), maximum price, and topic.
 *   **Parameters**:
     *   `dr_min` (Optional[int]): Minimum Domain Rating.
@@ -123,16 +130,13 @@ The following tools are registered with the MCP server and available for use:
     *   `topic` (Optional[str]): Desired topic for backlinks.
 *   **Returns**: (list) A list of market opportunities matching the criteria.
 
-#### `get_wallet_balance`
-
-*   **Signature**: `get_wallet_balance(wallet_id: str) -> dict`
+#### `get_wallet_balance_tool`
+*   **Signature**: `get_wallet_balance_tool(wallet_id: str) -> dict`
 *   **Description**: Gets the current balance for a specified wallet ID.
 *   **Parameters**:
     *   `wallet_id` (str): The ID of the wallet to get the balance for.
 *   **Returns**: (dict) A dictionary containing the wallet balance result.
 
----
-(Note: The `analyze_seo_content` tool, previously mentioned in this guide, is described for context but is not currently enabled in the default `aipseo/mcp_server.py`.)
 ---
 
 ### Obtaining Tool Schemas
@@ -143,7 +147,7 @@ To get the OpenAI-compatible schemas:
 ```bash
 aipseo toolspec --format openai
 ```
-This output will contain a JSON array of tool specifications, including `get_url_lookup`, `get_spam_score`, `list_market_opportunities`, and `get_wallet_balance`.
+This output will contain a JSON array of tool specifications, including all MCP tools listed above.
 
 ## AI Assistant Guidelines
 

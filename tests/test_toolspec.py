@@ -40,9 +40,9 @@ class TestToolSpecGeneration(unittest.TestCase):
     def test_toolspec_includes_cli_commands(self):
         # Check for a few representative CLI commands
         # These names are based on the Typer command structure and toolspec.py naming logic
-        expected_cli_tool_names = ["lookup", "spam-score", "wallet_create", "market_list"]
+        expected_cli_tool_names = ["lookup", "spam_score", "wallet_create_wallet", "market_list_marketplace"]
         # Also check for a subcommand to ensure group command processing works
-        self.assertTrue(len(self.generated_tool_names) > len(expected_cli_tool_names), 
+        self.assertTrue(len(self.generated_tool_names) > len(expected_cli_tool_names),
                         "Less tools generated than expected minimum (CLI + agent tools).")
 
         for name in expected_cli_tool_names:

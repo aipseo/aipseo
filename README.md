@@ -89,30 +89,58 @@ AIPSEO now includes an experimental Model Context Protocol (MCP) server, allowin
 
 ### Available Tools
 
-Currently, the following tool is available:
+The following tools are available via the MCP server (see `aipseo/mcp_server.py`):
 
-*   **`analyze_seo_content(content: str, keyword: str) -> str`**:
+*   **`analyze_seo_content_tool(content: str, keyword: str) -> str`**:
     *   **Description**: Analyzes a given piece of text content for SEO best practices against a target keyword.
     *   **Parameters**:
         *   `content` (string): The text content to analyze.
         *   `keyword` (string): The target keyword for the analysis.
     *   **Returns**: A string containing an analysis summary and actionable SEO recommendations.
 
+*   **`get_url_lookup_tool(url: str) -> dict`**:
+    *   **Description**: Retrieves lookup information (metadata, metrics) for a given URL.
+    *   **Parameters**:
+        *   `url` (string): The URL to look up.
+    *   **Returns**: (dict) A dictionary containing the lookup data for the URL.
+
+*   **`get_spam_score_tool(url: str) -> dict`**:
+    *   **Description**: Fetches the spam score for a specified URL.
+    *   **Parameters**:
+        *   `url` (string): The URL to get the spam score for.
+    *   **Returns**: (dict) A dictionary containing the spam score result.
+
+*   **`list_market_opportunities_tool(dr_min: Optional[int] = None, price_max: Optional[float] = None, topic: Optional[str] = None) -> list`**:
+    *   **Description**: Lists available backlink opportunities from the marketplace, with optional filters for Domain Rating (DR), maximum price, and topic.
+    *   **Parameters**:
+        *   `dr_min` (Optional[int]): Minimum Domain Rating.
+        *   `price_max` (Optional[float]): Maximum price.
+        *   `topic` (Optional[str]): Desired topic for backlinks.
+    *   **Returns**: (list) A list of market opportunities matching the criteria.
+
+*   **`get_wallet_balance_tool(wallet_id: str) -> dict`**:
+    *   **Description**: Gets the current balance for a specified wallet ID.
+    *   **Parameters**:
+        *   `wallet_id` (string): The ID of the wallet to get the balance for.
+    *   **Returns**: (dict) A dictionary containing the wallet balance result.
+
 ### Running the MCP Server
 
-The MCP server is defined in `aipseo/mcp_server.py`. To run it (for development/testing):
+The MCP server is implemented using the latest [FastMCP](https://modelcontextprotocol.io/) API. To run it (for development/testing):
 
 1.  Ensure you have `mcp` and an ASGI server like `uvicorn` installed in your environment.
     ```bash
     pip install "mcp[cli]" uvicorn
     ```
-2.  Run the server using uvicorn:
+2.  Run the server using uvicorn (or use the built-in run method):
     ```bash
     uvicorn aipseo.mcp_server:mcp_server --host 0.0.0.0 --port 8000
+    # or, from within Python:
+    # python -m aipseo.mcp_server
     ```
     (You might need to adjust the path or module name depending on your project setup.)
 
-AI agents can then connect to this server using an MCP client.
+The server uses `FastMCP` for tool registration and serving. AI agents can connect to this server using an MCP client. For more details, see the [Model Context Protocol documentation](https://modelcontextprotocol.io/).
 
 ## Development
 
